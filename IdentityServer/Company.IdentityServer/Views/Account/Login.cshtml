@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model LoginViewModel
+@inject IViewLocalizer Localizer
+
+<div class="login-page">
+    <div class="row center-block">
+        @if (Model.EnableLocalLogin)
+        {
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="panel panel-default overlay ">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <img src="~/assets/images/Company_Logo.png" alt=@Localizer["AltLogo"] />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 pull-left">
+                                <H1 class="H1">@Localizer["WelcomeMessage"]</H1>
+                            </div>
+                        </div>
+                        @if (ViewContext.ModelState.IsValid == false)
+                        {
+                                         @*<div class="alert alert-danger">
+                                             <strong>Error</strong>
+                                             <div asp-validation-summary="All" class="danger"></div>
+                                         </div>*@
+                            <div class="row">
+                                <div class="errorMessage">
+                                    @Localizer["IncorrectUsernameOrPassword"]                                   
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <form asp-route="Login">
+                                <input type="hidden" asp-for="ReturnUrl" />
+                                <fieldset>
+                                    <div class="form-group">
+                                        <input class="form-control textInput" placeholder=@Localizer["EmailPlaceholder"] asp-for="Email" autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control textInput" placeholder=@Localizer["PasswordPlaceholder"] asp-for="Password" autocomplete="off">
+                                    </div>
+                                    @if (Model.AllowRememberLogin)
+                                    {
+                                        <div class="form-group login-remember">
+                                            <div class="row">
+                                                <div class="checkbox col-sm-6">
+                                                    <label asp-for="RememberLogin">
+                                                        <input asp-for="RememberLogin">
+                                                        <strong>@Localizer["RememberMe"]</strong>
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <a href="http://www.google.com">@Localizer["ForgotPassword"]</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="row text-center">
+                                        <div class="form-group col-sm-12 ">
+                                            <button class="btn btn-primary logInButton">@Localizer["LoginButtonText"]</button>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col-sm-12 ">
+                                            <p>
+                                                @Localizer["LogInAgreementPart1"]<a href="http://www.google.com">@Localizer["TermsOfService"]</a>@Localizer["LogInAgreementPart2"]<a href="http://www.google.com">@Localizer["PrivacyPolicy"]</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Model.VisibleExternalProviders.Any())
+        {
+            <div class="col-md-6 col-sm-6 external-providers">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">External Login</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-inline">
+                            @foreach (var provider in Model.VisibleExternalProviders)
+                            {
+                                <li>
+                                    <a class="btn btn-default"
+                                       asp-action="ExternalLogin"
+                                       asp-route-provider="@provider.AuthenticationScheme"
+                                       asp-route-returnUrl="@Model.ReturnUrl">
+                                        @provider.DisplayName
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
+        {
+            <div class="alert alert-warning">
+                <strong>Invalid login request</strong>
+                There are no login schemes configured for this client.
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿a {
+    color: #0d47a1;
+}
+
+.overlay {
+    background: #FFFFFF;
+    box-shadow: 5px 5px 36px rgba(0, 0, 0, .36);
+    padding: 24px
+}
+
+.logInButton {
+    color: #CCCCCC;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .26);
+}
+
+.H1 {
+    color: grey;
+}
+
+.textInput {
+    font-size: 16px;
+    color: rgba(0, 0, 0, .54);
+    padding: 16px 0 6px 0;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, .54);
+    background: transparent;
+}
+
+.errorMessage {
+    color: #F44336;
+}
